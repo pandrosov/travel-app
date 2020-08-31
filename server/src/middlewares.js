@@ -1,20 +1,20 @@
 const notFound = (req, res, next) => {
-    const error = `Not found ${req.originalUrl}`;
+    const error = new Error(`Not Found - ${req.originalUrl}`);
     res.status(404);
-    next(error)
-}
+    next(error);
+};
 
-const handlerError = (error, req, res, next) => {
-    const statusCode = res.statusCode === 200 ? 500 : res.statusCode
-    res.status(statusCode)
+// eslint-disable-next-line no-unused-vars
+const errorHandler = (error, req, res, next) => {
+    const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+    res.status(statusCode);
     res.json({
-        error: error,
-        stack: process.env.NODE_ENV === 'production' ? 'message of error' : error.stack
-    })
-}
-
+        message: error.message,
+        stack: process.env.NODE_ENV === 'production' ? '🥞' : error.stack,
+    });
+};
 
 module.exports = {
     notFound,
-    handlerError
-}
+    errorHandler,
+};
